@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Yingyu app</title>
+    <script type='text/javascript' src='https://cdn.firebase.com/v0/firebase.js'></script>
+    <script src="./RTCMultiConnection-v1.4.js"> </script>
+
+    <style>
+      video {
+      vertical-align: top;
+      width: 48%;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="init">Open New Connection</button>
+    <br /><br />
+
+<script>
+    var connection = new RTCMultiConnection();
+
+    connection.session = {
+        audio: true,
+        video: true
+    };
+
+    connection.onstream = function(e) {
+        document.body.appendChild(e.mediaElement);
+    };
+
+    connection.onstreamended = function(e) {
+        if (e.mediaElement.parentNode) e.mediaElement.parentNode.removeChild(e.mediaElement);
+    };
+
+    var session_unique_idetifier = 'Session Unique Identifier';
+
+    connection.connect(session_unique_idetifier);
+
+    document.getElementById('init').onclick = function() {
+        this.disabled = true;
+        connection.open(session_unique_idetifier);
+    };
+</script>
+</body>
+</html>
